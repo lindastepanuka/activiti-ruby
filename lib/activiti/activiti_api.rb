@@ -32,14 +32,6 @@ module ActivitiRuby
       RestClient.get @uri+'processInstance/'+instance_id
     end
 
-    def task_informations(task_id)
-      RestClient.get @uri+'task/'+task_id
-    end
-
-    def perform_task(task_id, state, params)
-      RestClient.put @uri+'task/'+task_id+'/'+state,  params.to_json
-    end
-
     def login(user_id,password)
       RestClient.post @uri+'login',  {'userId' => user_id, 'password' => password}.to_json, :content_type => 'application/json'
     end
@@ -50,6 +42,26 @@ module ActivitiRuby
 
     def get_diagram(instance_id)
       RestClient.get @uri+'processInstance/'+instance_id+'/diagram'
+    end
+
+    def list_process_instance_tasks(process_instance_id)
+      RestClient.get @uri+"process-instance/#{process_instance_id}/tasks"
+    end
+
+    def task_informations(task_id)
+      RestClient.get @uri+'task/'+task_id
+    end
+
+    def perform_task(task_id, state, params)
+      RestClient.put @uri+'task/'+task_id+'/'+state,  params.to_json
+    end
+
+    def tasks_summary(user_id)
+      RestClient.get @uri+"tasks-summary?user=#{user_id}"
+    end
+
+    def task_list(user_id, assignment_type = "assignee")
+      RestClient.get @uri+"tasks?#{assignment_type}=#{user_id}"
     end
   end
 end

@@ -4,52 +4,52 @@ require "active_support/core_ext"
 
 module ActivitiRuby
   class Activiti
-    
     def initialize(endpoint)
       @uri = endpoint+"/activiti-rest/service/"
     end
-    def listProcess
+
+    def list_process
       RestClient.get @uri+'process-definitions'
     end
-    
-    def listProcessInstances(processKey)
+
+    def list_process_instances(process_key = nil)
       RestClient.get @uri+'process-instances'
     end
-    def listGroupUsers(group)
+
+    def list_group_users(group)
       RestClient.get @uri+'groups/'+group+'/users'
     end
-    
-    def listJobs
+
+    def list_jobs
       RestClient.get @uri+'management/jobs'
     end
-    
-    def instanciateProcess (processKey,user,group)
-      RestClient.post @uri+'process-instance',  {'processDefinitionKey' => processKey, 'owner' => user}.to_json
+
+    def instanciate_process (process_key,user,group)
+      RestClient.post @uri+'process-instance',  {'processDefinitionKey' => process_key, 'owner' => user}.to_json
     end
-    
-    def instanceInformations(instanceId)
-      RestClient.get @uri+'processInstance/'+instanceId
+
+    def instance_informations(instance_id)
+      RestClient.get @uri+'processInstance/'+instance_id
     end
-    
-    def taskInformations(taskId)
-      RestClient.get @uri+'task/'+taskId
+
+    def task_informations(task_id)
+      RestClient.get @uri+'task/'+task_id
     end
-    
-    def performTask(taskId,state, params,group)
-      RestClient.put @uri+'task/'+taskId+'/'+state,  params.to_json
+
+    def perform_task(task_id, state, params)
+      RestClient.put @uri+'task/'+task_id+'/'+state,  params.to_json
     end
-    
-    def login(userId,password)
-      RestClient.post @uri+'login',  {'userId' => userId, 'password' => password}.to_json, :content_type => 'application/json'
+
+    def login(user_id,password)
+      RestClient.post @uri+'login',  {'userId' => user_id, 'password' => password}.to_json, :content_type => 'application/json'
     end
-    
-    def getForm(taskId)
-      RestClient.get @uri+'form/'+taskId+'/properties'
+
+    def get_form(task_od)
+      RestClient.get @uri+'form/'+task_id+'/properties'
     end
-    
-    def getDiagram(instanceId)
-      RestClient.get @uri+'processInstance/'+instanceId+'/diagram'
+
+    def get_diagram(instance_id)
+      RestClient.get @uri+'processInstance/'+instance_id+'/diagram'
     end
-    
   end
 end
